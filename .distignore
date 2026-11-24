@@ -1,0 +1,23 @@
+# Files that must NOT ship to WordPress.org (used by build-zip.sh and the 10up deploy action).
+/.git
+/.gitignore
+/.gitattributes
+/.github
+/.claude
+/.wordpress-org
+/.distignore
+/AGENTS.md
+/CLAUDE.md
+/README.md
+/bin
+/build-zip.sh
+/dist
+/tests
+/vendor
+/composer.json
+/composer.lock
+/phpunit.xml.dist
+/phpcs.xml.dist
+.DS_Store
+*.log
+/.phpunit.result.cache

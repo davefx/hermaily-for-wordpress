@@ -1,0 +1,25 @@
+name: Deploy to WordPress.org
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to deploy (e.g. 1.0.1)'
+        required: true
+
+jobs:
+  deploy:
+    name: Deploy to WP.org SVN
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: WordPress Plugin Deploy
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SLUG: hermaily
+          VERSION: ${{ github.event.inputs.version || '' }}

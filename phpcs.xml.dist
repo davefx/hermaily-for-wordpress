@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<ruleset name="Hermaily">
+	<description>Coding standards and PHP cross-version checks for the Hermaily plugin.</description>
+
+	<file>hermaily.php</file>
+	<file>uninstall.php</file>
+	<file>includes</file>
+	<file>tests</file>
+
+	<arg name="extensions" value="php"/>
+	<arg name="colors"/>
+	<arg value="sp"/>
+	<arg name="parallel" value="8"/>
+
+	<config name="testVersion" value="7.4-"/>
+	<rule ref="PHPCompatibilityWP"/>
+
+	<config name="minimum_wp_version" value="6.2"/>
+	<rule ref="WordPress"/>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="hermaily"/>
+			</property>
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="hermaily"/>
+			</property>
+		</properties>
+	</rule>
+
+	<!-- The tests fake requests, write to the database directly and use PHPUnit naming. -->
+	<rule ref="WordPress.Security">
+		<exclude-pattern>tests/*</exclude-pattern>
+	</rule>
+	<rule ref="WordPress.DB.DirectDatabaseQuery">
+		<exclude-pattern>tests/*</exclude-pattern>
+	</rule>
+	<rule ref="WordPress.Files.FileName">
+		<exclude-pattern>tests/*</exclude-pattern>
+	</rule>
+	<rule ref="WordPress.DB.PreparedSQL">
+		<exclude-pattern>tests/*</exclude-pattern>
+	</rule>
+	<rule ref="WordPress.WP.AlternativeFunctions">
+		<exclude-pattern>tests/*</exclude-pattern>
+	</rule>
+	<rule ref="WordPress.PHP.DiscouragedPHPFunctions">
+		<exclude-pattern>tests/*</exclude-pattern>
+	</rule>
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<exclude-pattern>tests/*</exclude-pattern>
+	</rule>
+
+	<!-- The bundled library is checked in its own repository. -->
+	<exclude-pattern>libraries/*</exclude-pattern>
+	<exclude-pattern>vendor/*</exclude-pattern>
+</ruleset>
