@@ -12,7 +12,7 @@ Send every WordPress email through Hermaily, an email service hosted in the Euro
 
 == Description ==
 
-Hermaily replaces the way WordPress sends email. Instead of PHP's `mail()` or an SMTP connection, every message that goes through `wp_mail()` — password resets, WooCommerce orders, contact forms — is sent with the [Hermaily](https://hermaily.com) API over HTTPS.
+Hermaily replaces the way WordPress sends email. Instead of PHP's `mail()` or an SMTP connection, every message that goes through `wp_mail()` (password resets, WooCommerce orders, contact forms) is sent with the [Hermaily](https://hermaily.com) API over HTTPS.
 
 Many hosts block the SMTP ports (587 and 465). Port 443, the one HTTPS uses, is never blocked, so this works on any host.
 
@@ -23,7 +23,7 @@ Many hosts block the SMTP ports (587 and 465). Port 443, the one HTTPS uses, is 
 * **Default sender**, name and email, for messages that do not say who they are from.
 * **Force sender** for plugins that send "from" someone else, such as contact forms that use the visitor's address. The original sender becomes the Reply-To, so your replies still reach them.
 * **Test email** button that shows Hermaily's own explanation when something is wrong.
-* **Log** of what was sent: date, recipients, subject and the real status — delivered, bounced, marked as spam… — with every event Hermaily recorded. Email content is never stored. You choose how many days it is kept, or turn it off.
+* **Log** of what was sent: date, recipients, subject and the real status (delivered, bounced, marked as spam…), with every event Hermaily recorded. Email content is never stored. You choose how many days it is kept, or turn it off.
 * Attachments, CC, BCC, Reply-To, HTML and custom headers work as they do with `wp_mail()`, and the core `wp_mail_from`, `wp_mail_from_name`, `wp_mail_content_type`, `wp_mail_succeeded` and `wp_mail_failed` hooks keep working.
 
 No templates, no campaigns, nothing else to configure.

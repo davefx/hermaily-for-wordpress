@@ -11,7 +11,7 @@ if ( false !== $_polyfills_path ) {
 	define( 'WP_TESTS_PHPUNIT_POLYFILLS_PATH', $_polyfills_path );
 }
 
-// Composer autoload — provides the Yoast PHPUnit Polyfills the WP suite needs.
+// Composer autoload: provides the Yoast PHPUnit Polyfills the WP suite needs.
 $_composer_autoload = dirname( __DIR__ ) . '/vendor/autoload.php';
 if ( file_exists( $_composer_autoload ) ) {
 	require_once $_composer_autoload;
