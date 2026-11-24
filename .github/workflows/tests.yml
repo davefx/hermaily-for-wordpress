@@ -3,14 +3,38 @@ name: Tests
 on:
   push:
   pull_request:
+  schedule:
+    # Mondays, to notice when a new WordPress or PHP release breaks something.
+    - cron: '17 5 * * 1'
+  workflow_dispatch:
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  test:
+  phpunit:
+    name: PHP ${{ matrix.php }} · WP ${{ matrix.wp }}${{ matrix.multisite == '1' && ' · multisite' || '' }}
     runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental || false }}
     strategy:
+      fail-fast: false
       matrix:
-        php: ['7.4', '8.3']
-        multisite: ['0', '1']
+        # From the floor the plugin declares (WordPress 6.2, PHP 7.4) to the newest of each.
+        php: ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4']
+        wp: ['6.2', '6.5', '6.8', 'latest']
+        multisite: ['0']
+        exclude:
+          # Versions WordPress itself does not support together.
+          - { wp: '6.2', php: '8.3' }
+          - { wp: '6.2', php: '8.4' }
+          - { wp: '6.5', php: '8.4' }
+        include:
+          - { php: '7.4', wp: 'latest', multisite: '1' }
+          - { php: '8.4', wp: 'latest', multisite: '1' }
+          - { php: '8.5', wp: 'latest', multisite: '0' }
+          # WordPress in development: an early warning, not a blocker.
+          - { php: '8.4', wp: 'trunk', multisite: '0', experimental: true }
     services:
       mysql:
         image: mysql:8.0
@@ -20,18 +44,30 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
     steps:
       - uses: actions/checkout@v4
+
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
+          extensions: mysqli
           tools: composer
-      - run: sudo apt-get install -y subversion
-      - run: composer install --no-progress
-      - run: bash bin/install-wp-tests.sh wp_tests root root 127.0.0.1 latest
-      - run: vendor/bin/phpunit
+          coverage: none
+
+      - name: Install Subversion
+        run: sudo apt-get update -q && sudo apt-get install -y -q subversion
+
+      - name: Composer dependencies
+        run: composer install --no-progress --no-interaction
+
+      - name: WordPress test suite
+        run: bash bin/install-wp-tests.sh wp_tests root root 127.0.0.1 ${{ matrix.wp }}
+
+      - name: PHPUnit
+        run: vendor/bin/phpunit
         env:
           WP_MULTISITE: ${{ matrix.multisite }}
 
   phpcs:
+    name: Coding standards
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -39,5 +75,18 @@ jobs:
         with:
           php-version: '8.3'
           tools: composer
-      - run: composer install --no-progress
+          coverage: none
+      - run: composer install --no-progress --no-interaction
       - run: vendor/bin/phpcs
+
+  plugin-check:
+    name: Plugin Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the zip
+        run: ./build-zip.sh && mkdir -p build && unzip -q dist/hermaily-*.zip -d build
+      - uses: wordpress/plugin-check-action@v1
+        with:
+          build-dir: build/hermaily
+          exclude-directories: libraries
