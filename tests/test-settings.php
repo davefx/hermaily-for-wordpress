@@ -205,6 +205,126 @@ class Test_Settings extends Hermaily_TestCase {
 	}
 
 	/**
+	 * Why the account cannot send, as Hermaily explains it.
+	 *
+	 * @dataProvider cannot_send_reasons
+	 *
+	 * @param array  $answer   GET /v1/domain answer.
+	 * @param string $expected Text the page must show.
+	 */
+	public function test_page_explains_why_it_cannot_send( array $answer, $expected ) {
+		$this->login_admin();
+		$this->configure();
+		$this->respond( 'GET /v1/domain', 200, array_merge( array( 'domain' => 'acme.example' ), $answer ) );
+
+		$this->assertStringContainsString( $expected, $this->render() );
+	}
+
+	/**
+	 * Answers of GET /v1/domain that mean no email will go out, and the explanation for each.
+	 *
+	 * @return array
+	 */
+	public function cannot_send_reasons() {
+		return array(
+			'pending approval' => array(
+				array(
+					'verified'       => true,
+					'account_status' => 'pending',
+					'can_send'       => false,
+				),
+				'pending approval',
+			),
+			'paused'           => array(
+				array(
+					'verified'       => true,
+					'account_status' => 'paused',
+					'can_send'       => false,
+				),
+				'contact Hermaily support',
+			),
+			'suspended'        => array(
+				array(
+					'verified'       => true,
+					'account_status' => 'suspended',
+					'can_send'       => false,
+				),
+				'contact Hermaily support',
+			),
+			'unverified'       => array(
+				array(
+					'verified'       => false,
+					'account_status' => 'active',
+					'can_send'       => false,
+				),
+				'is not verified yet',
+			),
+		);
+	}
+
+	/**
+	 * An account that can send gets no warning.
+	 */
+	public function test_no_warning_when_it_can_send() {
+		$this->login_admin();
+		$this->configure();
+		$this->respond(
+			'GET /v1/domain',
+			200,
+			array(
+				'domain'         => 'acme.example',
+				'verified'       => true,
+				'stream'         => null,
+				'account_status' => 'active',
+				'can_send'       => true,
+			)
+		);
+
+		$this->assertStringNotContainsString( 'notice-warning', $this->render() );
+	}
+
+	/**
+	 * A broadcast-only key is useless for WordPress's transactional email.
+	 */
+	public function test_page_warns_about_a_broadcast_key() {
+		$this->login_admin();
+		$this->configure();
+		$this->respond(
+			'GET /v1/domain',
+			200,
+			array(
+				'domain'         => 'acme.example',
+				'verified'       => true,
+				'stream'         => 'broadcast',
+				'account_status' => 'active',
+				'can_send'       => true,
+			)
+		);
+
+		$this->assertStringContainsString( 'only send through the broadcast stream', $this->render() );
+	}
+
+	/**
+	 * A rejected key is reported as such.
+	 */
+	public function test_page_reports_a_rejected_key() {
+		$this->login_admin();
+		$this->configure();
+		$this->respond(
+			'GET /v1/domain',
+			401,
+			array(
+				'error' => array(
+					'code'    => 'unauthorized',
+					'message' => 'Invalid API key',
+				),
+			)
+		);
+
+		$this->assertStringContainsString( 'Hermaily does not accept this API key', $this->render() );
+	}
+
+	/**
 	 * A subdomain sender is fine.
 	 */
 	public function test_subdomain_sender_is_on_the_domain() {

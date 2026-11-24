@@ -150,25 +150,72 @@ class Test_Client extends Hermaily_TestCase {
 	}
 
 	/**
-	 * The domain endpoint returns the key's domain.
+	 * The domain endpoint returns the key's domain and whether it can send.
 	 */
 	public function test_domain_returns_the_keys_domain() {
 		$this->respond(
 			'GET /v1/domain',
 			200,
 			array(
-				'domain'   => 'acme.example',
-				'verified' => true,
+				'domain'         => 'Acme.example',
+				'verified'       => true,
+				'stream'         => null,
+				'account_status' => 'active',
+				'can_send'       => true,
 			)
 		);
 
 		$this->assertSame(
 			array(
-				'domain'   => 'acme.example',
-				'verified' => true,
+				'domain'         => 'acme.example',
+				'verified'       => true,
+				'stream'         => '',
+				'account_status' => 'active',
+				'can_send'       => true,
 			),
 			( new Hermaily_Client( 'hm_secret' ) )->domain()
 		);
+	}
+
+	/**
+	 * Fields missing from the answer get safe defaults: can_send follows verified.
+	 */
+	public function test_domain_defaults_for_missing_fields() {
+		$this->respond(
+			'GET /v1/domain',
+			200,
+			array(
+				'domain'   => 'acme.example',
+				'verified' => false,
+			)
+		);
+
+		$domain = ( new Hermaily_Client( 'hm_secret' ) )->domain();
+
+		$this->assertFalse( $domain['can_send'] );
+		$this->assertSame( '', $domain['stream'] );
+		$this->assertSame( '', $domain['account_status'] );
+	}
+
+	/**
+	 * A rejected key is an error, not an unknown domain.
+	 */
+	public function test_domain_with_a_rejected_key_is_an_error() {
+		$this->respond(
+			'GET /v1/domain',
+			401,
+			array(
+				'error' => array(
+					'code'    => 'unauthorized',
+					'message' => 'Invalid API key',
+				),
+			)
+		);
+
+		$result = ( new Hermaily_Client( 'hm_secret' ) )->domain();
+
+		$this->assertWPError( $result );
+		$this->assertSame( 'hermaily_unauthorized', $result->get_error_code() );
 	}
 
 	/**

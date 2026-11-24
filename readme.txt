@@ -18,7 +18,7 @@ Many hosts block the SMTP ports (587 and 465). Port 443, the one HTTPS uses, is 
 
 = Features =
 
-* **One setting to start:** paste your API key and email goes out through Hermaily. When Hermaily can tell the key's domain, the plugin proposes a sender on it and warns you if the domain is not verified yet.
+* **One setting to start:** paste your API key and email goes out through Hermaily. The plugin proposes a sender on the key's domain and tells you when something will stop email from going out: an unverified domain, an account pending approval or paused, or a key meant only for newsletters.
 * **Key in wp-config.php** if you prefer: `define( 'HERMAILY_API_KEY', 'hm_…' );`. The field in the settings is then locked.
 * **Default sender**, name and email, for messages that do not say who they are from.
 * **Force sender** for plugins that send "from" someone else, such as contact forms that use the visitor's address. The original sender becomes the Reply-To, so your replies still reach them.

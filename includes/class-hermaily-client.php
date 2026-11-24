@@ -61,7 +61,8 @@ class Hermaily_Client {
 	/**
 	 * Gets the key's domain (GET /v1/domain).
 	 *
-	 * @return array|WP_Error|null domain and verified; null when the API does not offer this endpoint.
+	 * @return array|WP_Error|null domain, verified, stream ('' when the key may use any), account_status and
+	 *                             can_send; null when the API does not offer this endpoint.
 	 */
 	public function domain() {
 		$answer = $this->request( 'GET', '/v1/domain' );
@@ -71,16 +72,19 @@ class Hermaily_Client {
 			return is_array( $data ) && 404 === ( $data['status'] ?? 0 ) ? null : $answer;
 		}
 
-		$domain = $answer['domain'] ?? ( $answer['name'] ?? '' );
+		$domain = $answer['domain'] ?? '';
 		if ( ! is_string( $domain ) || '' === $domain ) {
 			return null;
 		}
 
-		$verified = $answer['verified'] ?? ( 'verified' === ( $answer['status'] ?? '' ) );
+		$verified = ! empty( $answer['verified'] );
 
 		return array(
-			'domain'   => strtolower( $domain ),
-			'verified' => (bool) $verified,
+			'domain'         => strtolower( $domain ),
+			'verified'       => $verified,
+			'stream'         => is_string( $answer['stream'] ?? null ) ? sanitize_key( $answer['stream'] ) : '',
+			'account_status' => is_string( $answer['account_status'] ?? null ) ? sanitize_key( $answer['account_status'] ) : '',
+			'can_send'       => isset( $answer['can_send'] ) ? (bool) $answer['can_send'] : $verified,
 		);
 	}
 

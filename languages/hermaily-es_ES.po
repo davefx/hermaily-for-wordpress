@@ -4,15 +4,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Hermaily 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/hermaily\n"
+"POT-Creation-Date: 2026-11-24T22:58:00+00:00\n"
+"PO-Revision-Date: 2026-11-24 12:00+0100\n"
 "Last-Translator: DaveFX\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-24T22:42:19+00:00\n"
-"PO-Revision-Date: 2026-11-24 12:00+0100\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: hermaily\n"
 
@@ -45,17 +45,17 @@ msgstr "https://davefx.com"
 msgid "Invalid message id."
 msgstr "Identificador de mensaje no válido."
 
-#: includes/class-hermaily-client.php:124
+#: includes/class-hermaily-client.php:128
 msgid "Hermaily sent an answer that could not be read."
 msgstr "Hermaily envió una respuesta que no se pudo leer."
 
 #. translators: 1: HTTP status code, 2: explanation from Hermaily.
-#: includes/class-hermaily-client.php:136
+#: includes/class-hermaily-client.php:140
 #, php-format
 msgid "Hermaily answered %1$d: %2$s"
 msgstr "Hermaily respondió %1$d: %2$s"
 
-#: includes/class-hermaily-log.php:196
+#: includes/class-hermaily-log.php:187
 msgid "This message never reached Hermaily."
 msgstr "Este mensaje nunca llegó a Hermaily."
 
@@ -71,339 +71,367 @@ msgstr "Hermaily admite como máximo %d destinatarios por mensaje."
 msgid "Could not read the attachment %s."
 msgstr "No se pudo leer el adjunto %s."
 
-#: includes/class-hermaily-settings.php:165
-#: includes/class-hermaily-settings.php:339
+#: includes/class-hermaily-settings.php:103
+msgid "Hermaily does not accept this API key. Check that you copied it whole, or create a new one."
+msgstr "Hermaily no acepta esta clave de API. Comprueba que la has copiado entera o crea una nueva."
+
+#: includes/class-hermaily-settings.php:170
+#: includes/class-hermaily-settings.php:344
 msgid "Settings"
 msgstr "Ajustes"
 
-#: includes/class-hermaily-settings.php:187
+#: includes/class-hermaily-settings.php:192
 msgid "Sorry, you are not allowed to manage Hermaily."
 msgstr "Lo siento, no tienes permiso para gestionar Hermaily."
 
-#: includes/class-hermaily-settings.php:269
+#: includes/class-hermaily-settings.php:274
 msgid "Hermaily test email"
 msgstr "Correo de prueba de Hermaily"
 
 #. translators: %s: site name.
-#: includes/class-hermaily-settings.php:272
+#: includes/class-hermaily-settings.php:277
 #, php-format
 msgid "This test email from %s was sent through the Hermaily API. If you are reading it, sending works."
 msgstr "Este correo de prueba de %s se ha enviado a través de la API de Hermaily. Si lo estás leyendo, el envío funciona."
 
 #. translators: 1: recipient, 2: Hermaily message id.
-#: includes/class-hermaily-settings.php:281
+#: includes/class-hermaily-settings.php:286
 #, php-format
 msgid "Hermaily accepted the test email to %1$s (id %2$s). Its status appears in the Log tab."
 msgstr "Hermaily ha aceptado el correo de prueba para %1$s (id %2$s). Su estado aparece en la pestaña Registro."
 
 #. translators: %s: recipient.
-#: includes/class-hermaily-settings.php:284
+#: includes/class-hermaily-settings.php:289
 #, php-format
 msgid "The test email to %s was sent, but not through Hermaily: another plugin is handling wp_mail()."
 msgstr "El correo de prueba para %s se ha enviado, pero no a través de Hermaily: otro plugin se está encargando de wp_mail()."
 
 #. translators: 1: recipient, 2: error message.
-#: includes/class-hermaily-settings.php:287
+#: includes/class-hermaily-settings.php:292
 #, php-format
 msgid "The test email to %1$s could not be sent. %2$s"
 msgstr "No se pudo enviar el correo de prueba a %1$s. %2$s"
 
-#: includes/class-hermaily-settings.php:340
+#: includes/class-hermaily-settings.php:345
 msgid "Log"
 msgstr "Registro"
 
-#: includes/class-hermaily-settings.php:385
+#: includes/class-hermaily-settings.php:390
 msgid "Settings saved."
 msgstr "Ajustes guardados."
 
-#: includes/class-hermaily-settings.php:392
+#: includes/class-hermaily-settings.php:397
 msgid "The default sender is not a valid email address. Nothing was saved."
 msgstr "El remitente por defecto no es una dirección de correo válida. No se ha guardado nada."
 
-#: includes/class-hermaily-settings.php:394
+#: includes/class-hermaily-settings.php:399
 msgid "Save an API key before sending the test email."
 msgstr "Guarda una clave de API antes de enviar el correo de prueba."
 
 #. translators: %s: link to the API keys page of the Hermaily dashboard.
-#: includes/class-hermaily-settings.php:418
+#: includes/class-hermaily-settings.php:423
 #, php-format
 msgid "Create an API key in %s and paste it below. From then on, every email WordPress sends goes through Hermaily."
 msgstr "Crea una clave de API en %s y pégala aquí debajo. A partir de entonces, todo el correo que envíe WordPress saldrá por Hermaily."
 
-#: includes/class-hermaily-settings.php:419
+#: includes/class-hermaily-settings.php:424
 msgid "your Hermaily dashboard"
 msgstr "tu panel de Hermaily"
 
-#. translators: %s: domain.
-#: includes/class-hermaily-settings.php:426
-#, php-format
-msgid "The domain %s is not verified yet: Hermaily will not send from it until its DNS records are in place. Check it in your Hermaily dashboard."
-msgstr "El dominio %s aún no está verificado: Hermaily no enviará desde él hasta que sus registros DNS estén en su sitio. Revísalo en tu panel de Hermaily."
-
 #. translators: 1: sender address, 2: domain.
-#: includes/class-hermaily-settings.php:430
+#: includes/class-hermaily-settings.php:434
 #, php-format
 msgid "The default sender %1$s is not on %2$s, the domain of this API key: Hermaily will refuse it."
 msgstr "El remitente por defecto %1$s no es de %2$s, el dominio de esta clave de API: Hermaily lo rechazará."
 
-#. translators: %s: error message.
-#: includes/class-hermaily-settings.php:434
-#, php-format
-msgid "The API key could not be checked. %s"
-msgstr "No se pudo comprobar la clave de API. %s"
-
-#: includes/class-hermaily-settings.php:443
+#: includes/class-hermaily-settings.php:446
 msgid "API key"
 msgstr "Clave de API"
 
-#: includes/class-hermaily-settings.php:446
+#: includes/class-hermaily-settings.php:449
 msgid "Defined by the HERMAILY_API_KEY constant in wp-config.php."
 msgstr "Definida con la constante HERMAILY_API_KEY en wp-config.php."
 
-#: includes/class-hermaily-settings.php:448
+#: includes/class-hermaily-settings.php:451
 msgid "Saved. Paste a new key to replace it."
 msgstr "Guardada. Pega una clave nueva para sustituirla."
 
-#: includes/class-hermaily-settings.php:451
+#: includes/class-hermaily-settings.php:454
 msgid "Remove the saved key (WordPress will send email by itself again)"
 msgstr "Borrar la clave guardada (WordPress volverá a enviar el correo por su cuenta)"
 
-#: includes/class-hermaily-settings.php:453
+#: includes/class-hermaily-settings.php:456
 msgid "You can also define it in wp-config.php:"
 msgstr "También puedes definirla en wp-config.php:"
 
 #. translators: %s: domain.
-#: includes/class-hermaily-settings.php:460
+#: includes/class-hermaily-settings.php:463
 #, php-format
 msgid "This key sends from %s (verified)."
 msgstr "Esta clave envía desde %s (verificado)."
 
 #. translators: %s: domain.
-#: includes/class-hermaily-settings.php:462
+#: includes/class-hermaily-settings.php:465
 #, php-format
 msgid "This key sends from %s (not verified yet)."
 msgstr "Esta clave envía desde %s (aún sin verificar)."
 
-#: includes/class-hermaily-settings.php:469
+#: includes/class-hermaily-settings.php:472
 msgid "Default sender email"
 msgstr "Correo del remitente por defecto"
 
-#: includes/class-hermaily-settings.php:471
+#: includes/class-hermaily-settings.php:474
 msgid "Used when a message does not say who it is from. It must be on the domain of your API key."
 msgstr "Se usa cuando un mensaje no dice quién lo envía. Debe ser del dominio de tu clave de API."
 
-#: includes/class-hermaily-settings.php:474
+#: includes/class-hermaily-settings.php:477
 msgid "Default sender name"
 msgstr "Nombre del remitente por defecto"
 
-#: includes/class-hermaily-settings.php:478
+#: includes/class-hermaily-settings.php:481
 msgid "Force sender"
 msgstr "Forzar remitente"
 
-#: includes/class-hermaily-settings.php:479
+#: includes/class-hermaily-settings.php:482
 msgid "Always send from the default sender"
 msgstr "Enviar siempre desde el remitente por defecto"
 
-#: includes/class-hermaily-settings.php:480
+#: includes/class-hermaily-settings.php:483
 msgid "For plugins that set their own sender, such as contact forms that send \"from\" the visitor. The original sender becomes the Reply-To, so replies still reach them."
 msgstr "Para los plugins que ponen su propio remitente, como los formularios de contacto que envían «desde» el visitante. El remitente original pasa a ser el Reply-To, así que las respuestas le siguen llegando."
 
-#: includes/class-hermaily-settings.php:483
+#: includes/class-hermaily-settings.php:486
 msgid "Keep the log for"
 msgstr "Conservar el registro durante"
 
-#: includes/class-hermaily-settings.php:484
+#: includes/class-hermaily-settings.php:487
 msgid "days"
 msgstr "días"
 
-#: includes/class-hermaily-settings.php:485
+#: includes/class-hermaily-settings.php:488
 msgid "The log keeps date, recipients, subject and status, never the content. 0 turns it off."
 msgstr "El registro guarda fecha, destinatarios, asunto y estado, nunca el contenido. Con 0 se desactiva."
 
-#: includes/class-hermaily-settings.php:493
+#: includes/class-hermaily-settings.php:496
 msgid "Send a test email"
 msgstr "Enviar un correo de prueba"
 
-#: includes/class-hermaily-settings.php:497
+#: includes/class-hermaily-settings.php:500
 msgid "Send to"
 msgstr "Enviar a"
 
-#: includes/class-hermaily-settings.php:499
+#: includes/class-hermaily-settings.php:502
 msgid "Send test email"
 msgstr "Enviar correo de prueba"
 
-#: includes/class-hermaily-settings.php:514
+#. translators: %s: domain.
+#: includes/class-hermaily-settings.php:517
+#, php-format
+msgid "The domain %s is not verified yet: Hermaily will not send from it until its DNS records are in place. Check it in your Hermaily dashboard."
+msgstr "El dominio %s aún no está verificado: Hermaily no enviará desde él hasta que sus registros DNS estén en su sitio. Revísalo en tu panel de Hermaily."
+
+#: includes/class-hermaily-settings.php:519
+msgid "Your Hermaily account is pending approval. You can set everything up now, but no email will go out until it is approved."
+msgstr "Tu cuenta de Hermaily está pendiente de aprobación. Puedes dejarlo todo configurado, pero no saldrá ningún correo hasta que la aprueben."
+
+#: includes/class-hermaily-settings.php:522
+msgid "paused"
+msgstr "en pausa"
+
+#: includes/class-hermaily-settings.php:523
+msgid "suspended"
+msgstr "suspendida"
+
+#: includes/class-hermaily-settings.php:524
+msgid "closed"
+msgstr "cerrada"
+
+#. translators: %s: account status (paused, suspended or closed).
+#: includes/class-hermaily-settings.php:527
+#, php-format
+msgid "Your Hermaily account is %s, so no email will go out. Check your Hermaily dashboard or contact Hermaily support."
+msgstr "Tu cuenta de Hermaily está %s, así que no saldrá ningún correo. Revisa tu panel de Hermaily o escribe al soporte de Hermaily."
+
+#: includes/class-hermaily-settings.php:529
+msgid "Hermaily says this API key cannot send email right now. Check your Hermaily dashboard."
+msgstr "Hermaily dice que esta clave de API no puede enviar correo ahora mismo. Revisa tu panel de Hermaily."
+
+#: includes/class-hermaily-settings.php:534
+msgid "This API key can only send through the broadcast stream, meant for newsletters: it will not work for the email WordPress sends. Create a transactional key in your Hermaily dashboard."
+msgstr "Esta clave de API solo puede enviar por el flujo de difusión, pensado para boletines: no sirve para el correo que envía WordPress. Crea una clave transaccional en tu panel de Hermaily."
+
+#: includes/class-hermaily-settings.php:549
 msgid "The log is turned off in the settings."
 msgstr "El registro está desactivado en los ajustes."
 
 #. translators: %d: number of days.
-#: includes/class-hermaily-settings.php:520
+#: includes/class-hermaily-settings.php:555
 #, php-format
 msgid "Messages of the last %d day. Statuses are as of the last check: open a message or refresh to ask Hermaily again."
 msgid_plural "Messages of the last %d days. Statuses are as of the last check: open a message or refresh to ask Hermaily again."
 msgstr[0] "Mensajes del último día. Los estados son los de la última consulta: abre un mensaje o actualiza para volver a preguntar a Hermaily."
 msgstr[1] "Mensajes de los últimos %d días. Los estados son los de la última consulta: abre un mensaje o actualiza para volver a preguntar a Hermaily."
 
-#: includes/class-hermaily-settings.php:526
+#: includes/class-hermaily-settings.php:561
 msgid "No messages yet."
 msgstr "Todavía no hay mensajes."
 
-#: includes/class-hermaily-settings.php:533
+#: includes/class-hermaily-settings.php:568
 msgid "Refresh statuses"
 msgstr "Actualizar estados"
 
-#: includes/class-hermaily-settings.php:537
-#: includes/class-hermaily-settings.php:597
-#: includes/class-hermaily-settings.php:628
+#: includes/class-hermaily-settings.php:572
+#: includes/class-hermaily-settings.php:632
+#: includes/class-hermaily-settings.php:663
 msgid "Date"
 msgstr "Fecha"
 
-#: includes/class-hermaily-settings.php:537
-#: includes/class-hermaily-settings.php:598
+#: includes/class-hermaily-settings.php:572
+#: includes/class-hermaily-settings.php:633
 msgid "To"
 msgstr "Para"
 
-#: includes/class-hermaily-settings.php:537
-#: includes/class-hermaily-settings.php:599
+#: includes/class-hermaily-settings.php:572
+#: includes/class-hermaily-settings.php:634
 msgid "Subject"
 msgstr "Asunto"
 
-#: includes/class-hermaily-settings.php:537
-#: includes/class-hermaily-settings.php:600
+#: includes/class-hermaily-settings.php:572
+#: includes/class-hermaily-settings.php:635
 msgid "Status"
 msgstr "Estado"
 
-#: includes/class-hermaily-settings.php:567
+#: includes/class-hermaily-settings.php:602
 msgid "Newer"
 msgstr "Más recientes"
 
 #. translators: 1: current page, 2: number of pages.
-#: includes/class-hermaily-settings.php:570
+#: includes/class-hermaily-settings.php:605
 #, php-format
 msgid "Page %1$d of %2$d"
 msgstr "Página %1$d de %2$d"
 
-#: includes/class-hermaily-settings.php:572
+#: includes/class-hermaily-settings.php:607
 msgid "Older"
 msgstr "Más antiguos"
 
-#: includes/class-hermaily-settings.php:584
+#: includes/class-hermaily-settings.php:619
 msgid "Back to the log"
 msgstr "Volver al registro"
 
-#: includes/class-hermaily-settings.php:588
+#: includes/class-hermaily-settings.php:623
 msgid "This message is no longer in the log."
 msgstr "Este mensaje ya no está en el registro."
 
-#: includes/class-hermaily-settings.php:601
+#: includes/class-hermaily-settings.php:636
 msgid "Hermaily id"
 msgstr "Id en Hermaily"
 
-#: includes/class-hermaily-settings.php:604
+#: includes/class-hermaily-settings.php:639
 msgid "Error"
 msgstr "Error"
 
 #. translators: %s: error message.
-#: includes/class-hermaily-settings.php:613
+#: includes/class-hermaily-settings.php:648
 #, php-format
 msgid "Hermaily could not be asked for the current status. %s"
 msgstr "No se pudo consultar a Hermaily el estado actual. %s"
 
-#: includes/class-hermaily-settings.php:620
+#: includes/class-hermaily-settings.php:655
 msgid "Events"
 msgstr "Eventos"
 
-#: includes/class-hermaily-settings.php:623
+#: includes/class-hermaily-settings.php:658
 msgid "No events yet."
 msgstr "Todavía no hay eventos."
 
-#: includes/class-hermaily-settings.php:628
+#: includes/class-hermaily-settings.php:663
 msgid "Event"
 msgstr "Evento"
 
-#: includes/class-hermaily-settings.php:628
+#: includes/class-hermaily-settings.php:663
 msgid "Recipient"
 msgstr "Destinatario"
 
-#: includes/class-hermaily-settings.php:628
+#: includes/class-hermaily-settings.php:663
 msgid "Details"
 msgstr "Detalles"
 
-#: includes/class-hermaily-settings.php:671
+#: includes/class-hermaily-settings.php:706
 msgid "Queued"
 msgstr "En cola"
 
-#: includes/class-hermaily-settings.php:672
+#: includes/class-hermaily-settings.php:707
 msgid "Sending"
 msgstr "Enviándose"
 
-#: includes/class-hermaily-settings.php:673
-#: includes/class-hermaily-settings.php:696
+#: includes/class-hermaily-settings.php:708
+#: includes/class-hermaily-settings.php:731
 msgid "Sent"
 msgstr "Enviado"
 
-#: includes/class-hermaily-settings.php:674
+#: includes/class-hermaily-settings.php:709
 msgid "Deferred, retrying"
 msgstr "Aplazado, reintentando"
 
-#: includes/class-hermaily-settings.php:675
-#: includes/class-hermaily-settings.php:697
+#: includes/class-hermaily-settings.php:710
+#: includes/class-hermaily-settings.php:732
 msgid "Delivered"
 msgstr "Entregado"
 
-#: includes/class-hermaily-settings.php:676
+#: includes/class-hermaily-settings.php:711
 msgid "Held for review"
 msgstr "Retenido para revisión"
 
-#: includes/class-hermaily-settings.php:677
+#: includes/class-hermaily-settings.php:712
 msgid "Suppressed"
 msgstr "Suprimido"
 
-#: includes/class-hermaily-settings.php:678
-#: includes/class-hermaily-settings.php:701
+#: includes/class-hermaily-settings.php:713
+#: includes/class-hermaily-settings.php:736
 msgid "Rejected"
 msgstr "Rechazado"
 
-#: includes/class-hermaily-settings.php:679
+#: includes/class-hermaily-settings.php:714
 msgid "Failed"
 msgstr "Fallido"
 
-#: includes/class-hermaily-settings.php:680
+#: includes/class-hermaily-settings.php:715
 msgid "Bounced"
 msgstr "Rebotado"
 
-#: includes/class-hermaily-settings.php:681
+#: includes/class-hermaily-settings.php:716
 msgid "Marked as spam"
 msgstr "Marcado como spam"
 
-#: includes/class-hermaily-settings.php:682
+#: includes/class-hermaily-settings.php:717
 msgid "Not sent"
 msgstr "No enviado"
 
-#: includes/class-hermaily-settings.php:698
+#: includes/class-hermaily-settings.php:733
 msgid "Delayed"
 msgstr "Retrasado"
 
-#: includes/class-hermaily-settings.php:699
+#: includes/class-hermaily-settings.php:734
 msgid "Bounce"
 msgstr "Rebote"
 
-#: includes/class-hermaily-settings.php:700
+#: includes/class-hermaily-settings.php:735
 msgid "Complaint"
 msgstr "Queja"
 
-#: includes/class-hermaily-settings.php:702
+#: includes/class-hermaily-settings.php:737
 msgid "Opened"
 msgstr "Abierto"
 
-#: includes/class-hermaily-settings.php:703
+#: includes/class-hermaily-settings.php:738
 msgid "Clicked"
 msgstr "Clic"
 
-#: includes/class-hermaily-settings.php:704
+#: includes/class-hermaily-settings.php:739
 msgid "Rendering failure"
 msgstr "Error al componer"
 
-#: includes/class-hermaily-settings.php:705
+#: includes/class-hermaily-settings.php:740
 msgid "Unsubscribed"
 msgstr "Baja"

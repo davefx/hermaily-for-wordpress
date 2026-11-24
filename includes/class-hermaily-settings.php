@@ -99,6 +99,10 @@ class Hermaily_Settings {
 	public static function domain_error() {
 		$cache = self::domain_cache();
 
+		if ( 'hermaily_unauthorized' === ( $cache['error_code'] ?? '' ) ) {
+			return __( 'Hermaily does not accept this API key. Check that you copied it whole, or create a new one.', 'hermaily' );
+		}
+
 		return (string) ( $cache['error'] ?? '' );
 	}
 
@@ -122,11 +126,12 @@ class Hermaily_Settings {
 
 		$answer = ( new Hermaily_Client( $key ) )->domain();
 		$cache  = array(
-			'hash'    => $hash,
-			'info'    => is_array( $answer ) ? $answer : null,
-			'error'   => is_wp_error( $answer ) ? $answer->get_error_message() : '',
+			'hash'       => $hash,
+			'info'       => is_array( $answer ) ? $answer : null,
+			'error'      => is_wp_error( $answer ) ? $answer->get_error_message() : '',
+			'error_code' => is_wp_error( $answer ) ? $answer->get_error_code() : '',
 			// A failure is asked again soon; an answer (or a missing endpoint) a day later.
-			'expires' => time() + ( is_wp_error( $answer ) ? 10 * MINUTE_IN_SECONDS : DAY_IN_SECONDS ),
+			'expires'    => time() + ( is_wp_error( $answer ) ? 10 * MINUTE_IN_SECONDS : DAY_IN_SECONDS ),
 		);
 
 		update_option( self::DOMAIN_OPTION, $cache, false );
@@ -421,17 +426,15 @@ class Hermaily_Settings {
 			echo '</p>';
 		}
 
-		if ( $domain && ! $domain['verified'] ) {
-			/* translators: %s: domain. */
-			self::notice( 'warning', sprintf( __( 'The domain %s is not verified yet: Hermaily will not send from it until its DNS records are in place. Check it in your Hermaily dashboard.', 'hermaily' ), $domain['domain'] ) );
+		if ( $domain ) {
+			self::render_domain_warnings( $domain );
 		}
 		if ( $domain && '' !== $settings['from_email'] && ! self::sender_on_domain( $settings['from_email'], $domain['domain'] ) ) {
 			/* translators: 1: sender address, 2: domain. */
 			self::notice( 'warning', sprintf( __( 'The default sender %1$s is not on %2$s, the domain of this API key: Hermaily will refuse it.', 'hermaily' ), $settings['from_email'], $domain['domain'] ) );
 		}
 		if ( $has_key && self::domain_error() ) {
-			/* translators: %s: error message. */
-			self::notice( 'error', sprintf( __( 'The API key could not be checked. %s', 'hermaily' ), self::domain_error() ) );
+			self::notice( 'error', self::domain_error() );
 		}
 
 		echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '">';
@@ -498,6 +501,38 @@ class Hermaily_Settings {
 		echo '<input type="email" id="hermaily-test-to" name="to" class="regular-text" value="' . esc_attr( wp_get_current_user()->user_email ) . '"> ';
 		submit_button( __( 'Send test email', 'hermaily' ), 'secondary', 'submit', false, $has_key ? array() : array( 'disabled' => 'disabled' ) );
 		echo '</p></form>';
+	}
+
+	/**
+	 * Warns when Hermaily says the key cannot send, and why, or cannot send WordPress's email.
+	 *
+	 * @param array $domain What GET /v1/domain said.
+	 */
+	private static function render_domain_warnings( array $domain ) {
+		if ( ! $domain['can_send'] ) {
+			$status = $domain['account_status'];
+
+			if ( ! $domain['verified'] ) {
+				/* translators: %s: domain. */
+				self::notice( 'warning', sprintf( __( 'The domain %s is not verified yet: Hermaily will not send from it until its DNS records are in place. Check it in your Hermaily dashboard.', 'hermaily' ), $domain['domain'] ) );
+			} elseif ( 'pending' === $status ) {
+				self::notice( 'warning', __( 'Your Hermaily account is pending approval. You can set everything up now, but no email will go out until it is approved.', 'hermaily' ) );
+			} elseif ( in_array( $status, array( 'paused', 'suspended', 'closed' ), true ) ) {
+				$labels = array(
+					'paused'    => __( 'paused', 'hermaily' ),
+					'suspended' => __( 'suspended', 'hermaily' ),
+					'closed'    => __( 'closed', 'hermaily' ),
+				);
+				/* translators: %s: account status (paused, suspended or closed). */
+				self::notice( 'warning', sprintf( __( 'Your Hermaily account is %s, so no email will go out. Check your Hermaily dashboard or contact Hermaily support.', 'hermaily' ), $labels[ $status ] ) );
+			} else {
+				self::notice( 'warning', __( 'Hermaily says this API key cannot send email right now. Check your Hermaily dashboard.', 'hermaily' ) );
+			}
+		}
+
+		if ( 'broadcast' === $domain['stream'] ) {
+			self::notice( 'warning', __( 'This API key can only send through the broadcast stream, meant for newsletters: it will not work for the email WordPress sends. Create a transactional key in your Hermaily dashboard.', 'hermaily' ) );
+		}
 	}
 
 	/**
