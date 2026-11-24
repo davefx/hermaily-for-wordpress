@@ -1,5 +1,8 @@
 # Hermaily for WordPress
 
+**Install:** download `hermaily-<version>.zip` from the [latest release](https://github.com/davefx/hermaily-for-wordpress/releases/latest)
+and upload it in WordPress → Plugins → Add New → Upload Plugin.
+
 WordPress plugin that sends every `wp_mail()` message through the [Hermaily](https://hermaily.com) HTTPS API
 instead of PHP's `mail()` or SMTP. Hosts often block ports 587 and 465; 443 never.
 
@@ -52,8 +55,11 @@ there once the plugin is approved; the plugin does not call `load_plugin_textdom
 
 ## Release
 
-Bump `Version` in `hermaily.php`, `HERMAILY_VERSION`, `Stable tag` and the changelog in `readme.txt`, then publish a
-GitHub release: `.github/workflows/deploy.yml` deploys to WordPress.org SVN (slug `hermaily`) once the plugin is
-approved and the `SVN_USERNAME`/`SVN_PASSWORD` secrets exist.
+Bump `Version` in `hermaily.php`, `HERMAILY_VERSION`, `Stable tag` and the changelog in `readme.txt`, commit, and
+publish a GitHub release whose tag is the bare version (`1.0.1`, no `v`). `.github/workflows/release.yml` attaches
+`hermaily-<version>.zip` (built by `build-zip.sh`, the same files WordPress.org gets) to the release.
+
+`.github/workflows/deploy.yml` deploys to WordPress.org SVN (slug `hermaily`). It is manual for now; once the plugin
+is approved and the `SVN_USERNAME`/`SVN_PASSWORD` secrets exist, add the `release: published` trigger back.
 
 License: GPLv3 or later.
